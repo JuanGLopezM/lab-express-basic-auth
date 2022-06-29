@@ -8,7 +8,7 @@ const { isLoggedIn, isLoggedOut } = require("../middleware/route-guard.js");
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 
-router.get("/login", (req, res) => res.render("auth/logIn"));
+router.get("/login", isLoggedOut, (req, res) => res.render("auth/logIn"));
 
 router.post("/login", (req, res, next) => {
   console.log("SESSION =====> ", req.session);
@@ -55,14 +55,16 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/userProfile", (req, res) => {
+router.get("/userProfile", isLoggedIn, (req, res) => {
   res.render("userProfile", { userInSession: req.session.currentUser });
 });
 
 //                     .: ADDED :.
-router.post("/logout", isLoggedIn, (req, res) => {
+router.post("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
+
+//PROTECTED iteración 3
 
 module.exports = router;
