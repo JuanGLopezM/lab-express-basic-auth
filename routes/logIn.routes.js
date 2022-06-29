@@ -3,7 +3,7 @@ const User = require("./../models/User.model");
 const mongoose = require("mongoose");
 require("../db");
 
-//const { isLoggedIn, isLoggedOut } = require("../middleware/route-guard.js");
+const { isLoggedIn, isLoggedOut } = require("../middleware/route-guard.js");
 
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
@@ -55,30 +55,14 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-// // crear
-// router.get("/celebrities/create", (req, res, next) =>
-//   res.render("celebrities/new-celebrity")
-// );
+router.get("/userProfile", (req, res) => {
+  res.render("userProfile", { userInSession: req.session.currentUser });
+});
 
-// router.post("/celebrities/create", (req, res, next) => {
-//   console.log(req.body);
-//   const { name, occupation, catchPhrase } = req.body;
-
-//   Celebrity.create({ name, occupation, catchPhrase })
-
-//     .then(() => res.redirect("/celebrities"))
-//     .catch((error) => res.render("celebrities/new-celebrity"));
-// });
-
-// router.get("/celebrities", (req, res, next) => {
-//   Celebrity.find()
-//     .then((response) => {
-//       console.log(response);
-//       res.render("celebrities/celebrities.hbs", { response });
-//     })
-//     .catch((err) => {
-//       next(err);
-//     });
-// });
+//                     .: ADDED :.
+router.post("/logout", isLoggedIn, (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
 
 module.exports = router;

@@ -1,6 +1,6 @@
-<p>holass</p>
+<p>User Profile</p>
 
-{{!-- 
+
 {{#if user}}
   <h2>Welcome, {{ user.username }}!</h2>
   <p>This is your profile page my friend!</p>
@@ -9,7 +9,10 @@
   </button>
 {{else}}
   <p>Still no logged in user, sorry!</p>
-{{/if}} --}}
+{{/if}}
 
-
+<form action="/logout" method="POST">
+  <button type="submit">Log out</button>
+</form>
+<br>
 <a href="/">Volver</a>
